@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>User Accounts.ico</ApplicationIcon>
+    <Configurations>Debug;Release;Releasex32</Configurations>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Authors>hhypest</Authors>
+    <Description>Простейшая утилита для пакетной печати pdf-файлов</Description>
+    <Copyright>hhypest</Copyright>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="User Accounts.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+    <PackageReference Include="RawPrint.NetStd-2.0" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
