@@ -1,13 +1,16 @@
 ﻿using Ookii.Dialogs.Wpf;
 using RawPrint.NetStd;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+[assembly: CLSCompliant(true)]
 namespace PrintPDF
 {
     /// <summary>
@@ -98,7 +101,7 @@ namespace PrintPDF
 
             IPrinter printer = new Printer();
             foreach (var file in PrintFiles)
-                printer.PrintRawFile(PrintName, string.Format(@"{0}\{1}", PrintFolder, file), file);
+                printer.PrintRawFile(PrintName, string.Format(CultureInfo.CurrentCulture,@"{0}\{1}", PrintFolder, file), file);
         }
 
         private void Print_Checked(object sender, RoutedEventArgs e)
