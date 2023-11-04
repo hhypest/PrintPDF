@@ -1,0 +1,173 @@
+﻿<Window x:Class="PrintPDF.Views.Shell.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:file="clr-namespace:PrintPDF.ViewModels.File"
+        xmlns:vm="clr-namespace:PrintPDF.ViewModels.Main"
+        xmlns:printer="clr-namespace:PrintPDF.ViewModels.Printer"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        mc:Ignorable="d"
+        Height="900" Width="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent"
+        Title="Печать файлов">
+
+    <Border CornerRadius="20" Background="{DynamicResource MaterialDesignPaper}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" CornerRadius="20,20,0,0" Background="{DynamicResource MaterialDesignPaper}"
+                    MouseLeftButtonDown="OnMoveView">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                           Text="Печать файлов" />
+            </Border>
+            <Grid Grid.Row="1" Margin="10,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="250" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Margin="0,10,0,10">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Width="25" Height="25"
+                                             VerticalAlignment="Center"
+                                             Kind="FolderOutline" />
+                                <TextBlock Margin="15,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                                           Text="Каталог с pdf-файлами" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="200" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                                 Style="{DynamicResource MaterialDesignOutlinedTextBox}"
+                                 Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                                 md:HintAssist.Hint="Выберите каталог"
+                                 IsReadOnly="True"
+                                 IsReadOnlyCaretVisible="True"
+                                 Text="{Binding FolderFiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Grid.Column="1"
+                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                Width="150"
+                                md:ButtonAssist.CornerRadius="10"
+                                Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                                Content="Обзор"
+                                Command="{Binding BrowseFolderCommand}" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Margin="0,10,0,10">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Width="25" Height="25"
+                                             VerticalAlignment="Center"
+                                             Kind="PrinterOutline" />
+                                <TextBlock Margin="15,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                                           Text="Список принтеров" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <ListView ItemsSource="{Binding Printers}"
+                              SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="printer:PrinterViewModel">
+                                <RadioButton GroupName="PrintersList"
+                                             Content="{Binding PrinterName}"
+                                             IsChecked="{Binding CheckedPrinter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{DynamicResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </GroupBox>
+                <GroupBox Grid.Row="2" Margin="0,10,0,10">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Width="25" Height="25"
+                                             VerticalAlignment="Center"
+                                             Kind="FileOutline" />
+                                <TextBlock Margin="15,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                                           Text="Список файлов в каталоге" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    Width="150"
+                                    md:ButtonAssist.CornerRadius="10"
+                                    Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                                    Content="Выделить всё"
+                                    Command="{Binding SelectedAllCommand}" />
+                            <Button Grid.Column="1"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    Width="150"
+                                    md:ButtonAssist.CornerRadius="10"
+                                    Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                                    Content="Снять выделение"
+                                    Command="{Binding UnselectedAllCommand}" />
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <ListView ItemsSource="{Binding Files}"
+                                      SelectionMode="Single">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate DataType="file:FileViewModel">
+                                        <CheckBox Content="{Binding FileInFolder.Name}"
+                                                  IsChecked="{Binding CheckedFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Style="{DynamicResource MaterialDesignDarkCheckBox}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Width="150"
+                            md:ButtonAssist.CornerRadius="10"
+                            Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                            Content="Печать"
+                            Command="{Binding PrintFilesCommand}" />
+                    <Button Grid.Column="1"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Width="150"
+                            md:ButtonAssist.CornerRadius="10"
+                            Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                            Content="Выход"
+                            Command="{Binding ExitAppCommand}" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
