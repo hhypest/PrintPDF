@@ -138,11 +138,10 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var printerName = Printers.FirstOrDefault(printer => printer.CheckedPrinter)!.PrinterName;
         var printerSettings = new PrinterSettings() { PrinterName = printerName };
 
-        var files = Files.Where(pdfFile => pdfFile.CheckedFile);
-        foreach (var file in files)
+        foreach (var file in Files.Where(pdfFile => pdfFile.CheckedFile))
         {
-            var document = PdfDocument.Load(file.FileInFolder.FullName);
-            var printDocument = new PdfPrintDocument(document)
+            using var document = PdfDocument.Load(file.FileInFolder.FullName);
+            using var printDocument = new PdfPrintDocument(document)
             {
                 PrinterSettings = printerSettings
             };
