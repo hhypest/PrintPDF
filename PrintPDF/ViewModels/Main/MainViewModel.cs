@@ -7,6 +7,7 @@ using PrintPDF.Messages;
 using PrintPDF.ViewModels.File;
 using PrintPDF.ViewModels.Printer;
 using RawNet.Printer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
@@ -96,13 +97,13 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     public void Receive(EnablePrintMessage message)
     {
         IsPrintEnable = Printers.Any(printer => printer.CheckedPrinter);
-        _logger.LogInformation("Получение сообщения от {PrinterViewModel}", typeof(PrinterViewModel));
+        _logger.LogInformation("Получено сообщения от {PrinterViewModel}", typeof(PrinterViewModel));
     }
 
     public void Receive(EnableSelectedMessage message)
     {
         IsSelectedEnable = Files.Any(file => file.CheckedFile);
-        _logger.LogInformation("Получение сообщения от {FileViewModel}", typeof(FileViewModel));
+        _logger.LogInformation("Получено сообщения от {FileViewModel}", typeof(FileViewModel));
     }
 
     #endregion Обработка сообщений
@@ -153,10 +154,26 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var printerName = Printers.FirstOrDefault(printer => printer.CheckedPrinter)!.PrinterName;
         var printer = new PrinterAdapter();
 
-        foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
-            printer.PrintRawFile(printerName, file);
+        try
+        {
+            foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
+            {
+                file.Refresh();
+                if (!file.Exists)
+                {
+                    _logger.LogWarning("Файла {file.Name} не существует в {file.DirectoryName}", file.Name, file.DirectoryName);
+                    continue;
+                }
 
-        _logger.LogInformation("Печать окончена {OnPrintFiles}", nameof(OnPrintFiles));
+                printer.PrintRawFile(printerName, file);
+            }
+
+            _logger.LogInformation("Печать окончена {OnPrintFiles}", nameof(OnPrintFiles));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ошибка печати!");
+        }
     }
 
     [RelayCommand]
