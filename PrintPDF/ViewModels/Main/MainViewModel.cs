@@ -11,6 +11,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using Printing = RawNet.Printer.Printer;
 
 namespace PrintPDF.ViewModels.Main;
 
@@ -134,12 +135,10 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     private void OnPrintFiles()
     {
         var printerName = Printers.FirstOrDefault(printer => printer.CheckedPrinter)!.PrinterName;
-        var printer = new RawNet.Printer.Printer();
+        var printer = new Printing();
 
         foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
-        {
             printer.PrintRawFile(printerName, file.FullName, file.Name);
-        }
     }
 
     [RelayCommand]
