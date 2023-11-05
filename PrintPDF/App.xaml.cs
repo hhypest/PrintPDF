@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using PrintPDF.Extensions;
 using System.Windows;
 
@@ -15,6 +16,11 @@ public partial class App : Application
             {
                 services.AddViewModels();
                 services.AddViews();
+            })
+            .ConfigureLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.SetMinimumLevel(LogLevel.Debug);
             }).Build();
     }
 

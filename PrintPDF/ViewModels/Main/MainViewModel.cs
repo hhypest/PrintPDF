@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Ookii.Dialogs.Wpf;
 using PrintPDF.Messages;
 using PrintPDF.ViewModels.File;
@@ -17,6 +18,12 @@ namespace PrintPDF.ViewModels.Main;
 
 public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecipient<EnablePrintMessage>, IRecipient<EnableSelectedMessage>
 {
+    #region Зависимости
+
+    private readonly ILogger<MainViewModel> _logger;
+
+    #endregion Зависимости
+
     #region Свойства модели представления
 
     [ObservableProperty]
@@ -43,11 +50,13 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
 
     #region Конструктор
 
-    public MainViewModel()
+    public MainViewModel(ILoggerFactory logger)
     {
         _folderFiles = string.Empty;
         _printers = new(GetPrinterList().Select(name => new PrinterViewModel(name)));
         _files = new();
+        _logger = logger.CreateLogger<MainViewModel>();
+        _logger.LogInformation("Инициализация", nameof(MainViewModel));
     }
 
     #endregion Конструктор
