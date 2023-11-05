@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using PrintPDF.Extensions;
+using Serilog;
+using System;
 using System.Windows;
 
 namespace PrintPDF;
@@ -12,15 +14,19 @@ public partial class App : Application
     public App()
     {
         AppHost = Host.CreateDefaultBuilder()
-            .ConfigureLogging(logging =>
+            .ConfigureAppConfiguration(appConfigure =>
             {
-                logging.AddConsole();
-                logging.SetMinimumLevel(LogLevel.Information);
+                appConfigure.AddJsonFile($@"{AppContext.BaseDirectory}settings\appsettings.json");
+                appConfigure.Build();
             })
             .ConfigureServices((_, services) =>
             {
                 services.AddViewModels();
                 services.AddViews();
+            })
+            .UseSerilog((hostContext, _, logConfig) =>
+            {
+                logConfig.ReadFrom.Configuration(hostContext.Configuration).Enrich.FromLogContext().WriteTo.File(@"Logs\log.txt");
             }).Build();
     }
 

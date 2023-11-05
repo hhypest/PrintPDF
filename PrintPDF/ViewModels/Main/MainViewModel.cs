@@ -97,13 +97,13 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     public void Receive(EnablePrintMessage message)
     {
         IsPrintEnable = Printers.Any(printer => printer.CheckedPrinter);
-        _logger.LogInformation("Получено сообщения от {PrinterViewModel}", typeof(PrinterViewModel));
+        _logger.LogInformation("Получено сообщение от {PrinterViewModel}", typeof(PrinterViewModel));
     }
 
     public void Receive(EnableSelectedMessage message)
     {
         IsSelectedEnable = Files.Any(file => file.CheckedFile);
-        _logger.LogInformation("Получено сообщения от {FileViewModel}", typeof(FileViewModel));
+        _logger.LogInformation("Получено сообщение от {FileViewModel}", typeof(FileViewModel));
     }
 
     #endregion Обработка сообщений
@@ -127,7 +127,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         FolderFiles = folderDialog.SelectedPath;
         Files = new(GetFilesList(FolderFiles).Select(file => new FileViewModel(file)));
         IsSelectedEnable = false;
-        _logger.LogInformation("Каталог выбран {OnBrowseFolder}", nameof(OnBrowseFolder));
+        _logger.LogInformation("Каталог выбран - {Folder}", FolderFiles);
     }
 
     [RelayCommand(CanExecute = nameof(OnCanExecuteSelectedAll))]
@@ -136,7 +136,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var list = Files.Select(file => new FileViewModel(file.FileInFolder) { CheckedFile = true });
         Files = new(list);
         IsSelectedEnable = true;
-        _logger.LogInformation("Файлы выбранны {OnSelectedAll}", nameof(OnSelectedAll));
+        _logger.LogInformation("Файлы выбраны {OnSelectedAll}", nameof(OnSelectedAll));
     }
 
     [RelayCommand(CanExecute = nameof(OnCanExecuteUnselectedAll))]
@@ -145,7 +145,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var list = Files.Select(file => new FileViewModel(file.FileInFolder) { CheckedFile = false });
         Files = new(list);
         IsSelectedEnable = false;
-        _logger.LogInformation("Файлы не выбранны {OnUnselectedAll}", nameof(OnUnselectedAll));
+        _logger.LogInformation("Файлы не выбраны {OnUnselectedAll}", nameof(OnUnselectedAll));
     }
 
     [RelayCommand(CanExecute = nameof(OnCanExecutePrintFiles))]
@@ -161,14 +161,14 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
                 file.Refresh();
                 if (!file.Exists)
                 {
-                    _logger.LogWarning("Файла {file.Name} не существует в {file.DirectoryName}", file.Name, file.DirectoryName);
+                    _logger.LogWarning("Файла не существует");
                     continue;
                 }
 
                 printer.PrintRawFile(printerName, file);
             }
 
-            _logger.LogInformation("Печать окончена {OnPrintFiles}", nameof(OnPrintFiles));
+            _logger.LogInformation("Печать файлов завершена на принтере {Name}", printerName);
         }
         catch (Exception ex)
         {
