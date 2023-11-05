@@ -24,10 +24,7 @@ public partial class App : Application
                 services.AddViewModels();
                 services.AddViews();
             })
-            .UseSerilog((hostContext, _, logConfig) =>
-            {
-                logConfig.ReadFrom.Configuration(hostContext.Configuration).Enrich.FromLogContext().WriteTo.File(@"Logs\log.txt");
-            }).Build();
+            .UseSerilog((hostContext, _, logConfig) => logConfig.ReadFrom.Configuration(hostContext.Configuration)).Build();
     }
 
     protected override async void OnStartup(StartupEventArgs e)
