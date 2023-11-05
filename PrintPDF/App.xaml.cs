@@ -12,15 +12,15 @@ public partial class App : Application
     public App()
     {
         AppHost = Host.CreateDefaultBuilder()
+            .ConfigureLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.SetMinimumLevel(LogLevel.Information);
+            })
             .ConfigureServices((_, services) =>
             {
                 services.AddViewModels();
                 services.AddViews();
-            })
-            .ConfigureLogging(logging =>
-            {
-                logging.AddConsole();
-                logging.SetMinimumLevel(LogLevel.Debug);
             }).Build();
     }
 
