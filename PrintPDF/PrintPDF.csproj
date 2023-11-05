@@ -24,7 +24,7 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
-    <PackageReference Include="rawnet" Version="1.0.1" />
+    <PackageReference Include="rawnet" Version="1.0.2" />
   </ItemGroup>
 
 </Project>

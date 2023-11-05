@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Ookii.Dialogs.Wpf;
 using PrintPDF.Messages;
 using PrintPDF.ViewModels.File;
@@ -43,7 +44,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
 
     #region Конструктор
 
-    public MainViewModel()
+    public MainViewModel(ILogger logger)
     {
         _folderFiles = string.Empty;
         _printers = new(GetPrinterList().Select(name => new PrinterViewModel(name)));
@@ -138,7 +139,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var printer = new PrinterAdapter();
 
         foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
-            printer.PrintRawFile(printerName, file.FullName, file.Name);
+            printer.PrintRawFile(printerName, file);
     }
 
     [RelayCommand]
