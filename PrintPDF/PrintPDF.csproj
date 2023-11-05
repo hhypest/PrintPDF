@@ -13,6 +13,8 @@
 	<FileVersion>2.0</FileVersion>
 	<Company>hhNET</Company>
 	<Authors>hhypest</Authors>
+	<RepositoryUrl>https://github.com/hhypest/PrintPDF</RepositoryUrl>
+	<PackageProjectUrl>https://github.com/hhypest/PrintPDF</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
