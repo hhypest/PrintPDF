@@ -5,13 +5,13 @@ using Ookii.Dialogs.Wpf;
 using PrintPDF.Messages;
 using PrintPDF.ViewModels.File;
 using PrintPDF.ViewModels.Printer;
+using RawNet.Printer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using Printing = RawNet.Printer.Printer;
 
 namespace PrintPDF.ViewModels.Main;
 
@@ -135,14 +135,14 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     private void OnPrintFiles()
     {
         var printerName = Printers.FirstOrDefault(printer => printer.CheckedPrinter)!.PrinterName;
-        var printer = new Printing();
+        var printer = new PrinterAdapter();
 
         foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
             printer.PrintRawFile(printerName, file.FullName, file.Name);
     }
 
     [RelayCommand]
-    private void OnExitApp()
+    private static void OnExitApp()
     {
         Application.Current.Shutdown();
     }
