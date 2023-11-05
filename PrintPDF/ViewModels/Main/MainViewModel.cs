@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Ookii.Dialogs.Wpf;
-using Patagames.Pdf.Net;
-using Patagames.Pdf.Net.Controls.Wpf;
 using PrintPDF.Messages;
 using PrintPDF.ViewModels.File;
 using PrintPDF.ViewModels.Printer;
@@ -136,17 +134,11 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     private void OnPrintFiles()
     {
         var printerName = Printers.FirstOrDefault(printer => printer.CheckedPrinter)!.PrinterName;
-        var printerSettings = new PrinterSettings() { PrinterName = printerName };
+        var printer = new RawNet.Printer.Printer();
 
-        foreach (var file in Files.Where(pdfFile => pdfFile.CheckedFile))
+        foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
         {
-            using var document = PdfDocument.Load(file.FileInFolder.FullName);
-            using var printDocument = new PdfPrintDocument(document)
-            {
-                PrinterSettings = printerSettings
-            };
-
-            printDocument.Print();
+            printer.PrintRawFile(printerName, file.FullName, file.Name);
         }
     }
 
