@@ -51,13 +51,12 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
 
     #region Конструктор
 
-    public MainViewModel(ILoggerFactory logger)
+    public MainViewModel(ILogger<MainViewModel> logger)
     {
         _folderFiles = string.Empty;
         _printers = new(GetPrinterList().Select(name => new PrinterViewModel(name)));
         _files = new();
-        _logger = logger.CreateLogger<MainViewModel>();
-        _logger.LogInformation("Инициализация {MainViewModel}", nameof(MainViewModel));
+        _logger = logger;
     }
 
     #endregion Конструктор
@@ -81,13 +80,11 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     protected override void OnActivated()
     {
         StrongReferenceMessenger.Default.RegisterAll(this);
-        _logger.LogInformation("Подписка на сообщения {MainViewModel}", nameof(MainViewModel));
     }
 
     protected override void OnDeactivated()
     {
         StrongReferenceMessenger.Default.UnregisterAll(this);
-        _logger.LogInformation("Отписка от сообщений {MainViewModel}", nameof(MainViewModel));
     }
 
     #endregion Подписка на сообщения
@@ -97,13 +94,11 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     public void Receive(EnablePrintMessage message)
     {
         IsPrintEnable = Printers.Any(printer => printer.CheckedPrinter);
-        _logger.LogInformation("Получено сообщение от {PrinterViewModel}", typeof(PrinterViewModel));
     }
 
     public void Receive(EnableSelectedMessage message)
     {
         IsSelectedEnable = Files.Any(file => file.CheckedFile);
-        _logger.LogInformation("Получено сообщение от {FileViewModel}", typeof(FileViewModel));
     }
 
     #endregion Обработка сообщений
@@ -127,7 +122,6 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         FolderFiles = folderDialog.SelectedPath;
         Files = new(GetFilesList(FolderFiles).Select(file => new FileViewModel(file)));
         IsSelectedEnable = false;
-        _logger.LogInformation("Каталог выбран - {Folder}", FolderFiles);
     }
 
     [RelayCommand(CanExecute = nameof(OnCanExecuteSelectedAll))]
@@ -136,7 +130,6 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var list = Files.Select(file => new FileViewModel(file.FileInFolder) { CheckedFile = true });
         Files = new(list);
         IsSelectedEnable = true;
-        _logger.LogInformation("Файлы выбраны {OnSelectedAll}", nameof(OnSelectedAll));
     }
 
     [RelayCommand(CanExecute = nameof(OnCanExecuteUnselectedAll))]
@@ -145,7 +138,6 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         var list = Files.Select(file => new FileViewModel(file.FileInFolder) { CheckedFile = false });
         Files = new(list);
         IsSelectedEnable = false;
-        _logger.LogInformation("Файлы не выбраны {OnUnselectedAll}", nameof(OnUnselectedAll));
     }
 
     [RelayCommand(CanExecute = nameof(OnCanExecutePrintFiles))]
@@ -167,8 +159,6 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
 
                 printer.PrintRawFile(printerName, file);
             }
-
-            _logger.LogInformation("Печать файлов завершена на принтере {Name}", printerName);
         }
         catch (Exception ex)
         {
