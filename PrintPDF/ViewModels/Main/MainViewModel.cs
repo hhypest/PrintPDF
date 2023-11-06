@@ -159,7 +159,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
                 file.Refresh();
                 if (!file.Exists)
                 {
-                    _logger.LogWarning("Файла не существует");
+                    _logger.LogWarning("Файла не существует в каталоге - {Folder}", FolderFiles);
                     continue;
                 }
 
@@ -168,7 +168,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ошибка печати!");
+            _logger.LogError(ex, "Ошибка печати");
             _dialogService.SendMessage($"{ex.Message}\n{ex.StackTrace}");
         }
     }
