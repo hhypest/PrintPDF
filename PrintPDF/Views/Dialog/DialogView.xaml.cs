@@ -5,13 +5,16 @@ namespace PrintPDF.Views.Dialog;
 public partial class DialogView : Window, IDialogView
 {
     #region Конструктор
+
     public DialogView()
     {
         InitializeComponent();
     }
-    #endregion
+
+    #endregion Конструктор
 
     #region Реализация интерфейса
+
     public void Show(string message)
     {
         MessageBlock.Text = message;
@@ -22,12 +25,15 @@ public partial class DialogView : Window, IDialogView
     {
         Owner = owner;
     }
-    #endregion
+
+    #endregion Реализация интерфейса
 
     #region Закрытие окна
+
     private void OnDialogResultClicked(object sender, RoutedEventArgs e)
     {
         DialogResult = true;
     }
-    #endregion
+
+    #endregion Закрытие окна
 }
