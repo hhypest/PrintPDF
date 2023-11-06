@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using PrintPDF.Extensions;
-using Serilog;
-using System;
 using System.Windows;
 
 namespace PrintPDF;
@@ -13,18 +10,7 @@ public partial class App : Application
 
     public App()
     {
-        AppHost = Host.CreateDefaultBuilder()
-            .ConfigureAppConfiguration(appConfigure =>
-            {
-                appConfigure.AddJsonFile($@"{AppContext.BaseDirectory}settings\appsettings.json");
-                appConfigure.Build();
-            })
-            .ConfigureServices((_, services) =>
-            {
-                services.AddViewModels();
-                services.AddViews();
-            })
-            .UseSerilog((hostContext, _, logConfig) => logConfig.ReadFrom.Configuration(hostContext.Configuration)).Build();
+        AppHost = Host.CreateDefaultBuilder().AppBuild();
     }
 
     protected override async void OnStartup(StartupEventArgs e)

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Ookii.Dialogs.Wpf;
 using PrintPDF.Messages;
+using PrintPDF.Services.Dialog;
 using PrintPDF.ViewModels.File;
 using PrintPDF.ViewModels.Printer;
 using RawNet.Printer;
@@ -22,6 +23,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     #region Зависимости
 
     private readonly ILogger<MainViewModel> _logger;
+    private readonly IDialogService _dialogService;
 
     #endregion Зависимости
 
@@ -51,12 +53,13 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
 
     #region Конструктор
 
-    public MainViewModel(ILogger<MainViewModel> logger)
+    public MainViewModel(ILogger<MainViewModel> logger, IDialogService dialogService)
     {
         _folderFiles = string.Empty;
         _printers = new(GetPrinterList().Select(name => new PrinterViewModel(name)));
         _files = new();
         _logger = logger;
+        _dialogService = dialogService;
     }
 
     #endregion Конструктор
@@ -148,6 +151,9 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
 
         try
         {
+            if (!Directory.Exists(FolderFiles))
+                throw new DirectoryNotFoundException($"Каталог не найден - {FolderFiles}");
+
             foreach (var file in Files.Where(pdf => pdf.CheckedFile).Select(f => f.FileInFolder))
             {
                 file.Refresh();
@@ -163,6 +169,7 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
         catch (Exception ex)
         {
             _logger.LogError(ex, "Ошибка печати!");
+            _dialogService.SendMessage($"{ex.Message}\n{ex.StackTrace}");
         }
     }
 
