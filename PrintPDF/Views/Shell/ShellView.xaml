@@ -89,7 +89,7 @@
                                 <RadioButton GroupName="PrintersList"
                                              Content="{Binding PrinterName}"
                                              IsChecked="{Binding CheckedPrinter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             Style="{DynamicResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}" />
+                                             Style="{DynamicResource MaterialDesignDarkRadioButton}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

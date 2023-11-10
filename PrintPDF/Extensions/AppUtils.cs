@@ -10,6 +10,7 @@ using PrintPDF.Views.Dialog;
 using PrintPDF.Views.Shell;
 using Serilog;
 using System;
+using System.IO;
 
 namespace PrintPDF.Extensions;
 
@@ -19,7 +20,7 @@ public static class AppUtils
     {
         return hostBuilder.ConfigureAppConfiguration(configuration =>
         {
-            configuration.AddJsonFile($@"{AppContext.BaseDirectory}settings\appsettings.json").Build();
+            configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(@"settings\appsettings.json").Build();
         })
             .ConfigureServices((_, services) =>
             {
