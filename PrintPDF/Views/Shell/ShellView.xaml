@@ -53,7 +53,6 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0"
                                  VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                                 Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                                  Foreground="{DynamicResource MaterialDesignDarkForeground}"
                                  md:HintAssist.Hint="Выберите каталог"
                                  IsReadOnly="True"
@@ -88,8 +87,7 @@
                             <DataTemplate DataType="printer:PrinterViewModel">
                                 <RadioButton GroupName="PrintersList"
                                              Content="{Binding PrinterName}"
-                                             IsChecked="{Binding CheckedPrinter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             Style="{DynamicResource MaterialDesignDarkRadioButton}" />
+                                             IsChecked="{Binding CheckedPrinter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -100,7 +98,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Width="25" Height="25"
                                              VerticalAlignment="Center"
-                                             Kind="FileOutline" />
+                                             Kind="FilePdfBox" />
                                 <TextBlock Margin="15,0,0,0"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource MaterialDesignDarkForeground}"
@@ -122,14 +120,12 @@
                                     VerticalAlignment="Center" HorizontalAlignment="Center"
                                     Width="150"
                                     md:ButtonAssist.CornerRadius="10"
-                                    Style="{DynamicResource MaterialDesignFlatDarkButton}"
                                     Content="Выделить всё"
                                     Command="{Binding SelectedAllCommand}" />
                             <Button Grid.Column="1"
                                     VerticalAlignment="Center" HorizontalAlignment="Center"
                                     Width="150"
                                     md:ButtonAssist.CornerRadius="10"
-                                    Style="{DynamicResource MaterialDesignFlatDarkButton}"
                                     Content="Снять выделение"
                                     Command="{Binding UnselectedAllCommand}" />
                         </Grid>
@@ -139,8 +135,7 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate DataType="file:FileViewModel">
                                         <CheckBox Content="{Binding FileInFolder.Name}"
-                                                  IsChecked="{Binding CheckedFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  Style="{DynamicResource MaterialDesignDarkCheckBox}" />
+                                                  IsChecked="{Binding CheckedFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
@@ -156,14 +151,12 @@
                             VerticalAlignment="Center" HorizontalAlignment="Center"
                             Width="150"
                             md:ButtonAssist.CornerRadius="10"
-                            Style="{DynamicResource MaterialDesignFlatDarkButton}"
                             Content="Печать"
                             Command="{Binding PrintFilesCommand}" />
                     <Button Grid.Column="1"
                             VerticalAlignment="Center" HorizontalAlignment="Center"
                             Width="150"
                             md:ButtonAssist.CornerRadius="10"
-                            Style="{DynamicResource MaterialDesignFlatDarkButton}"
                             Content="Выход"
                             Command="{Binding ExitAppCommand}" />
                 </Grid>
