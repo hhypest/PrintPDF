@@ -15,8 +15,8 @@ public partial class App : Application
 
     protected override async void OnStartup(StartupEventArgs e)
     {
-        await AppHost.AppStarted();
         base.OnStartup(e);
+        await AppHost.AppStarted();
     }
 
     protected override async void OnExit(ExitEventArgs e)

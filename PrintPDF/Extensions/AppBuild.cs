@@ -47,7 +47,7 @@ public static class AppBuild
 
     private static IServiceCollection AddViewModels(this IServiceCollection services)
     {
-        services.AddTransient<IMainViewModel, MainViewModel>();
+        services.AddSingleton<IMainViewModel, MainViewModel>();
         services.AddTransient<IPrinterViewModel, PrinterViewModel>();
         services.AddTransient<IFileViewModel, FileViewModel>();
         return services;
