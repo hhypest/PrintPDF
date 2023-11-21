@@ -19,7 +19,7 @@ public interface IMainViewModel
 
     public IRelayCommand UnselectAllFileCommand { get; }
 
-    public IAsyncRelayCommand PrintFilesCommand { get; }
+    public IRelayCommand PrintFilesCommand { get; }
 
     public void RegisterMessage(bool state);
 }
