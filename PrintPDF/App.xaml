@@ -7,10 +7,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Cyan.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Teal.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}" />
             <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatDarkButton}" />
+            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}" />
             <Style TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignDarkRadioButton}" />
             <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignDarkCheckBox}" />
         </ResourceDictionary>

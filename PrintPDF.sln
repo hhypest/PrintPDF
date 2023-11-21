@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintPDF", "PrintPDF\PrintPDF.csproj", "{B19892D0-3972-46B5-8EC3-0DAFA8F2CF53}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6707CD25-168A-4B04-98CB-D9C0D78592F6}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintPDF", "PrintPDF\PrintPDF.csproj", "{0F6F0EE5-187B-44B4-AB8B-27A6C7598B2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B19892D0-3972-46B5-8EC3-0DAFA8F2CF53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B19892D0-3972-46B5-8EC3-0DAFA8F2CF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B19892D0-3972-46B5-8EC3-0DAFA8F2CF53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B19892D0-3972-46B5-8EC3-0DAFA8F2CF53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6F0EE5-187B-44B4-AB8B-27A6C7598B2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6F0EE5-187B-44B4-AB8B-27A6C7598B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6F0EE5-187B-44B4-AB8B-27A6C7598B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6F0EE5-187B-44B4-AB8B-27A6C7598B2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

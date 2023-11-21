@@ -10,20 +10,18 @@ public partial class App : Application
 
     public App()
     {
-        AppHost = Host.CreateDefaultBuilder().AppBuild();
+        AppHost = Host.CreateDefaultBuilder().HostBuild();
     }
 
     protected override async void OnStartup(StartupEventArgs e)
     {
-        await AppHost.StartAsync();
-        AppHost.AppStarted();
+        await AppHost.AppStarted();
         base.OnStartup(e);
     }
 
     protected override async void OnExit(ExitEventArgs e)
     {
-        AppHost.AppStoped();
-        await AppHost.StopAsync();
+        await AppHost.AppStoped();
         base.OnExit(e);
     }
 }
