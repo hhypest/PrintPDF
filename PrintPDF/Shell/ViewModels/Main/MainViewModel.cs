@@ -136,17 +136,18 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     {
         var printerName = PrinterList.FirstOrDefault(p => p.IsSelectedPrinter)!.PrinterName;
         var files = FileList.Where(f => f.IsSelectedFile).Select(f => f.FileInFolder);
-        await Parallel.ForEachAsync(files, async (file, token) =>
-        {
-            file.Refresh();
-            if (!file.Exists)
-                return;
 
-            await Task.Run(() =>
+        await Task.Run(() =>
+        {
+            Parallel.ForEach(files, file =>
             {
+                file.Refresh();
+                if (!file.Exists)
+                    return;
+
                 var printer = new PrinterAdapter();
                 printer.PrintRawFile(printerName, file);
-            }, token);
+            });
         });
     }
 
