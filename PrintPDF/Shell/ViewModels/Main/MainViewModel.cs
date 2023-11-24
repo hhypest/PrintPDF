@@ -132,20 +132,22 @@ public partial class MainViewModel : ObservableRecipient, IMainViewModel, IRecip
     }
 
     [RelayCommand(CanExecute = nameof(OnPrintFilesChanged))]
-    private void PrintFiles()
+    private async Task PrintFiles()
     {
         var printerName = PrinterList.FirstOrDefault(p => p.IsSelectedPrinter)!.PrinterName;
         var files = FileList.Where(f => f.IsSelectedFile).Select(f => f.FileInFolder);
-        var printer = new PrinterAdapter();
-
-        foreach (var file in files)
+        await Parallel.ForEachAsync(files, async (file, token) =>
         {
             file.Refresh();
             if (!file.Exists)
-                continue;
+                return;
 
-            printer.PrintRawFile(printerName, file);
-        }
+            await Task.Run(() =>
+            {
+                var printer = new PrinterAdapter();
+                printer.PrintRawFile(printerName, file);
+            }, token);
+        });
     }
 
     #endregion Команды
